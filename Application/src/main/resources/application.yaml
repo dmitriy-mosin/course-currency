@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: course-currency
+
+springdoc:
+  packages-to-scan: com.example.coursecurrency
+
+logging:
+  level:
+    root: info
+    org.springframework.boot.web.servlet: trace
+    com.example.coursecurrency: debug
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X] %logger{80} %msg%n'
+
+URL:
+  ecbClient: "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
+  cbrClient: "http://www.cbr.ru/scripts/XML_daily.asp"

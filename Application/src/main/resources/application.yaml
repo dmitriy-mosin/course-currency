@@ -22,3 +22,16 @@ logging:
 URL:
   ecbClient: "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
   cbrClient: "http://www.cbr.ru/scripts/XML_daily.asp"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true

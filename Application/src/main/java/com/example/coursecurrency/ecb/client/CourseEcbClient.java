@@ -3,7 +3,7 @@ package com.example.coursecurrency.ecb.client;
 
 import com.example.coursecurrency.ecb.client.dto.CourseEcbCube;
 import com.example.coursecurrency.ecb.client.dto.Envelope;
-import com.example.coursecurrency.exception.CourseNotFoundException;
+import com.example.coursecurrency.error.exception.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,4 +1,4 @@
-package com.example.coursecurrency.exception;
+package com.example.coursecurrency.error.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -3,8 +3,8 @@ package com.example.coursecurrency.cbr.client;
 
 import com.example.coursecurrency.cbr.client.dto.ValCurs;
 import com.example.coursecurrency.cbr.client.dto.Valute;
-import com.example.coursecurrency.exception.CourseNotFoundException;
-import com.example.coursecurrency.exception.CourseParseException;
+import com.example.coursecurrency.error.exception.CourseNotFoundException;
+import com.example.coursecurrency.error.exception.CourseParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,6 +25,8 @@ public class CourseCbrClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    private final NumberFormat cbrFormat = NumberFormat.getNumberInstance(Locale.FRANCE);
+
     @Cacheable
     public List<Valute> getCourse() {
         ValCurs valCurs = restTemplate.getForObject(URL, ValCurs.class);
@@ -34,7 +36,7 @@ public class CourseCbrClient {
 
         valCurs.getValute().stream().forEach(valute -> {
             try {
-                valute.setRate(NumberFormat.getNumberInstance(Locale.FRANCE).parse(valute.getValue()).doubleValue());
+                valute.setRate(cbrFormat.parse(valute.getValue()).doubleValue());
             } catch (ParseException e) {
                 throw new CourseParseException(e.getMessage());
             }

@@ -16,11 +16,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = CourseNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected ResponseEntity<Object> handleConflict(CourseNotFoundException ex, WebRequest request) {
+    protected ResponseEntity<Object> handleNotFound(CourseNotFoundException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setErrorMessage(ex.getMessage());
         errorResponse.setErrorCode("404");
         return handleExceptionInternal(ex, errorResponse,
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(value = CourseParseException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected ResponseEntity<Object> handleParseError(CourseParseException ex, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorMessage(ex.getMessage());
+        errorResponse.setErrorCode("500");
+        return handleExceptionInternal(ex, errorResponse,
+                new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }

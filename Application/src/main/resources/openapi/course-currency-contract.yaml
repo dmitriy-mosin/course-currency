@@ -71,7 +71,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/ErrorResponse'
         500:
-          $ref: '#/components/responses/Error'
+          description: Course Parsing in Double error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
 
 components:
 

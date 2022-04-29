@@ -11,5 +11,5 @@ scrape_configs:
       - targets:
           - application:8084
         labels:
-          application: 'orm-comparison'
+          application: 'course-currency'
           instance: 'application'

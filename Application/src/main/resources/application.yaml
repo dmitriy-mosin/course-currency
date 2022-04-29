@@ -2,11 +2,12 @@ spring:
   application:
     name: course-currency
 
-caffeine:
-  cacheNames: courseEcb,courseCbr
-  initialCapacity: 100
-  maximumSize: 1000
-  expireAfterAccess: 30
+cache:
+  specifications:
+    - name: "courseEcb"
+      spec: "initialCapacity=100,maximumSize=1000,expireAfterAccess=30m"
+    - name: "courseCbr"
+      spec: "initialCapacity=100,maximumSize=1000,expireAfterAccess=30m"
 
 springdoc:
   packages-to-scan: com.example.coursecurrency
@@ -42,6 +43,9 @@ management:
       probes:
         enabled: true
       show-details: always
+    configprops:
+      cache:
+        time-to-live:
   server:
     port: 8084
   endpoints:

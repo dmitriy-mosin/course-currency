@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: course-currency
+
+cache:
+  specifications:
+    - name: "courseEcb"
+      spec: "initialCapacity=100,maximumSize=1000,expireAfterAccess=30m"
+    - name: "courseCbr"
+      spec: "initialCapacity=100,maximumSize=1000,expireAfterAccess=30m"
+
+springdoc:
+  packages-to-scan: com.example.coursecurrency
+
+logging:
+  level:
+    root: info
+    org.springframework.boot.web.servlet: trace
+    com.example.coursecurrency: debug
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X] %logger{80} %msg%n'
+
+URL:
+  ecbClient: "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
+  cbrClient: "http://www.cbr.ru/scripts/XML_daily.asp"
+
+management:
+  metrics:
+    export.prometheus.enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      maximum-expected-value:
+        db.timed: 10s
+        http.server.requests: 10s
+      minimum-expected-value:
+        db.timed: 10ms
+        http.server.requests: 10ms
+  endpoint:
+    metrics.enabled: true
+    prometheus.enabled: true
+    health:
+      probes:
+        enabled: true
+      show-details: always
+    configprops:
+      cache:
+        time-to-live:
+  server:
+    port: 8084
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: prometheus,health
+      path-mapping:
+        prometheus: /metrics

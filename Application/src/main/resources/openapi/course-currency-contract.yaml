@@ -1,0 +1,123 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1
+  title: Course currency Service
+  description: The course currency  service
+
+tags:
+  - name: "Course currency"
+
+
+paths:
+
+  /ecb:
+    get:
+      summary: This is summary
+      tags:
+        - "Course ecb"
+      description: This is a description
+      operationId: getCourseEcb
+      responses:
+        200:
+          description: This means its ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          $ref: '#/components/responses/Error'
+        404:
+          description: Course Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /cbr:
+    get:
+      summary: This is summary
+      tags:
+        - "Course cbr"
+      description: This is a description
+      operationId: getCourseCbr
+      responses:
+        200:
+          description: This means its ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          $ref: '#/components/responses/Error'
+        404:
+          description: Course Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Course Parsing in Double error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+components:
+
+  schemas:
+
+    Course:
+      description: This is the Course model
+      type: object
+      properties:
+        currency:
+          description: The currency of course
+          type: string
+        rate:
+          description: rate of course
+          type: double
+
+    ErrorResponse:
+      description: Error response
+      type: object
+      required:
+        - errorId
+        - errorCode
+        - errorMessage
+      properties:
+        errorId:
+          description: Error identificator
+          type: string
+          minLength: 16
+          maxLength: 16
+          example: 02d55cabb05b44f0
+        errorCode:
+          description: Service error code
+          type: string
+          minLength: 1
+          example: InternalServerError
+        errorMessage:
+          description: service error message
+          type: string
+          minLength: 1
+          example: Internal server error
+        errorDetails:
+          description: Error details
+          type: object

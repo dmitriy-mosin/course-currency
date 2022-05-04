@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@CacheConfig(cacheNames = {"courseEcb"})
+@CacheConfig
 public class CourseEcbClient {
 
     @Value("${URL.ecbClient}")
@@ -24,9 +24,7 @@ public class CourseEcbClient {
     @Cacheable(cacheNames = {"courseEcb"})
     public List<CourseEcbCube> getCourse() {
         Envelope envelope = restTemplate.getForObject(URL, Envelope.class);
-        if (Optional.ofNullable(envelope).isEmpty()) {
-            throw new CourseNotFoundException("Course ECB Not Found");
-        }
+        Optional.ofNullable(envelope).orElseThrow(() -> new CourseNotFoundException("Course ECB Not Found"));
         return envelope.getCubeMain().getCube().getCourseEcbCubes();
     }
 }

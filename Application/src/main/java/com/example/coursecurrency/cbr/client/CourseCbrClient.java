@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Component
-@CacheConfig(cacheNames = {"courseCbr"})
+@CacheConfig
 public class CourseCbrClient {
 
     @Value("${URL.cbrClient}")
@@ -31,10 +31,7 @@ public class CourseCbrClient {
     @Cacheable(cacheNames = {"courseCbr"})
     public List<Currency> getCourse() {
         ValCurs valCurs = restTemplate.getForObject(URL, ValCurs.class);
-        if (Optional.ofNullable(valCurs).isEmpty()) {
-            throw new CourseNotFoundException("Course CBR Not Found");
-        }
-
+        Optional.ofNullable(valCurs).orElseThrow(() -> new CourseNotFoundException("Course CBR Not Found"));
         valCurs.getCurrencies().forEach(valute -> {
             try {
                 valute.setRate(cbrFormat.parse(valute.getValue()).doubleValue());
